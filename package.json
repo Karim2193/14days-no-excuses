@@ -1,0 +1,15 @@
+{
+  "name": "14days-no-excuses",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PWA personnelle de coaching sèche 14 jours (nutrition, sport, discipline).",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node tests/unit.mjs",
+    "test:e2e": "node tests/e2e.cjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.50.0"
+  }
+}

@@ -1,0 +1,22 @@
+// Utilitaires communs : dates locales, formatage, échappement HTML.
+export const pad = (n) => String(n).padStart(2, '0');
+export const dateKey = (d = new Date()) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+export const parseKey = (k) => { const [y, m, d] = k.split('-').map(Number); return new Date(y, m - 1, d); };
+export const addDays = (k, n) => { const d = parseKey(k); d.setDate(d.getDate() + n); return dateKey(d); };
+export const diffDays = (a, b) => Math.round((parseKey(b) - parseKey(a)) / 86400000);
+export const nowMinutes = (d = new Date()) => d.getHours() * 60 + d.getMinutes();
+export const hhmmToMin = (s) => { const [h, m] = (s || '0:0').split(':').map(Number); return h * 60 + (m || 0); };
+export const minToHhmm = (m) => `${pad(Math.floor(m / 60) % 24)}:${pad(m % 60)}`;
+const JOURS = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'];
+const MOIS = ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'];
+export const fmtDate = (k, withDay = true) => { const d = parseKey(k); return `${withDay ? JOURS[d.getDay()] + ' ' : ''}${d.getDate()} ${MOIS[d.getMonth()]}`; };
+export const r0 = (x) => Math.round(x || 0);
+export const r1 = (x) => Math.round((x || 0) * 10) / 10;
+export const fmtKg = (x) => (x == null || isNaN(x) ? '—' : r1(x).toFixed(1).replace('.', ',') + ' kg');
+export const fmtNum = (x) => r0(x).toLocaleString('fr-FR');
+export const clamp = (x, a, b) => Math.max(a, Math.min(b, x));
+export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+export const norm = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').trim();
+export const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+export const pick = (arr, seed) => arr[Math.abs(seed) % arr.length];
+export const num = (v) => { if (v === '' || v == null) return null; const x = parseFloat(String(v).replace(',', '.')); return isNaN(x) ? null : x; };
